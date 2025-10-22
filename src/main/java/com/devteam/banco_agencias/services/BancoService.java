@@ -4,42 +4,58 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.devteam.banco_agencias.entities.Banco;
 import com.devteam.banco_agencias.repositories.BancoRepository;
+import com.devteam.banco_agencias.services.exceptions.DatabaseException;
+import com.devteam.banco_agencias.services.exceptions.ResourceNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class BancoService {
-	
+
 	@Autowired
 	private BancoRepository repository;
-	
+
 	public List<Banco> findAll() {
 		return repository.findAll();
 	}
-	
+
 	public Banco findById(Long id) {
 		Optional<Banco> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
-	
+
 	public Banco insert(Banco banco) {
 		repository.save(banco);
 		return banco;
 	}
-	
+
 	public void delete(@PathVariable Long id) {
-		repository.delete(findById(id));
+		try {
+			repository.delete(findById(id));
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DatabaseException(id);
+		}
 	}
-	
+
 	public Banco update(Long id, Banco banco) {
-		Banco reference = repository.getReferenceById(id);
-		updateReference(reference, banco);
-		return repository.save(reference);
+		try {
+			Banco reference = repository.getReferenceById(id);
+			updateReference(reference, banco);
+			return repository.save(reference);
+		} catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
-	
+
 	private void updateReference(Banco reference, Banco banco) {
 		reference.setNome(banco.getNome());
 		reference.setCnpj(banco.getCnpj());
@@ -56,5 +72,5 @@ public class BancoService {
 		reference.setTelefone(banco.getTelefone());
 		reference.setEmail(banco.getEmail());
 	}
-	
+
 }
