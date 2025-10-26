@@ -2,6 +2,8 @@ package com.devteam.banco_agencias.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.devteam.banco_agencias.entities.enums.TipoInstituicao;
@@ -10,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,7 +23,6 @@ public class Banco implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
 	private String nome;
 	private String cnpj;
 	private String codigo;
@@ -35,6 +37,9 @@ public class Banco implements Serializable {
 	private String cep;
 	private String telefone;
 	private String email;
+	
+	@OneToMany(mappedBy = "banco")
+	private List<Agencia> agencias = new ArrayList<>();
 
 	public Banco() {
 	}
@@ -58,6 +63,10 @@ public class Banco implements Serializable {
 		this.cep = cep;
 		this.telefone = telefone;
 		this.email = email;
+	}
+	
+	public List<Agencia> getAgencias() {
+		return agencias;
 	}
 
 	public Long getId() {

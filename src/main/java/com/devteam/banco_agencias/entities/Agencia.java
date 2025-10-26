@@ -5,11 +5,14 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import com.devteam.banco_agencias.entities.enums.SituacaoAgencia;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,7 +23,7 @@ public class Agencia implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
 	private String nome;
 	private String codigo;
 	private LocalDate dataFundacao;
@@ -33,13 +36,18 @@ public class Agencia implements Serializable {
 	private String cep;
 	private String telefone;
 	private String email;
+	
+	@ManyToOne
+	@JoinColumn(name = "banco_id")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private Banco banco;
 
 	public Agencia() {
 	}
 
 	public Agencia(Long id, String nome, String codigo, LocalDate dataFundacao, SituacaoAgencia situacao,
 			String gerente, String endereco, String bairro, String cidade, String estado, String cep, String telefone,
-			String email) {
+			String email, Banco banco) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -54,6 +62,7 @@ public class Agencia implements Serializable {
 		this.cep = cep;
 		this.telefone = telefone;
 		this.email = email;
+		this.banco = banco;
 	}
 
 	public Long getId() {
@@ -159,7 +168,15 @@ public class Agencia implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public Banco getBanco() {
+		return banco;
+	}
 
+	public void setBanco(Banco banco) {
+		this.banco = banco;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
