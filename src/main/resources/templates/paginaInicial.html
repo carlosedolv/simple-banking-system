@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Página Inicial</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<section class="main" >
+    <h1 class="title">Agência de Bancos</h1>
+
+    <button class="addBtn"> Cadastrar </button>
+
+    <button class="searchBtn"> <i class="fa-solid fa-magnifying-glass"></i></button>
+
+    <div class="bankListDiv">
+        <h2>Bancos Cadastrados</h2>
+        <tr th:each="banco : ${bancos}">
+            <div class="card">
+                <div>
+                    <span class="cardSpan">Id do Banco: </span>
+                    <td th:text="${banco.id}"></td>
+                </div>
+                <div>
+                    <span class="cardSpan">Nome: </span>
+                    <td th:text="${banco.nome}"></td>
+                </div>
+                <div>
+                    <span class="cardSpan">CNPJ: </span>
+                    <td th:text="${banco.cnpj}"></td>
+                </div>
+                <div>
+                    <span class="cardSpan">Código: </span>
+                    <td th:text="${banco.codigo}"></td>
+                </div>
+                <div>
+                    <span class="cardSpan">Cidade: </span>
+                    <td th:text="${banco.cidade}"></td>
+                </div>
+                <div>
+                    <span class="cardSpan">Estado: </span>
+                    <td th:text="${banco.estado}"></td>
+                </div>
+                <div>
+                    <span class="cardSpan">Presidente: </span>
+                    <td th:text="${banco.presidente}"></td>
+                </div>
+
+                <div class="cardBtns">
+                    <button class="deleteBtn">
+                        Deletar
+                    </button>
+                    <button class="updateBtn">
+                        Alterar
+                    </button>
+                </div>
+            </div>
+        </tr>
+    </div>
+</section>
+
+</body>
+</html>
