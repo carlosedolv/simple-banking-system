@@ -41,7 +41,7 @@ public class TestConfig implements CommandLineRunner {
 				TipoInstituicao.BANCO_MULTIPLO, "Carlos Pereira", "Avenida Paulista, 500", "Bela Vista", "São Paulo",
 				"SP", "01310-500", "(11) 3456-7890", "contato@itau.com.br");
 
-		bancoRepository.saveAll(Arrays.asList(b1, b2, b3));
+		// bancoRepository.saveAll(Arrays.asList(b1, b2, b3));
 
 		Agencia a1 = new Agencia(null, "Agencia Norte", "383629", LocalDate.of(2003, 8, 21), SituacaoAgencia.ATIVA,
 				"Carlos", "Rua X", "São Paulo", "São Paulo", "x", "carlos@gmail.com", "sa", "sa", b1);
@@ -58,7 +58,7 @@ public class TestConfig implements CommandLineRunner {
 		Agencia a5 = new Agencia(null, "Agencia Sul", "4930293102", LocalDate.of(2013, 4, 8), SituacaoAgencia.ENCERRADA,
 				"João", "Rua A", "São Paulo", "São Paulo", "SP", "carlos@gmail.com", "xxx", "ssaa", b3);
 		
-		agenciaRepository.saveAll(Arrays.asList(a1, a2, a3, a4, a5));
+		// agenciaRepository.saveAll(Arrays.asList(a1, a2, a3, a4, a5));
 	}
 
 }
