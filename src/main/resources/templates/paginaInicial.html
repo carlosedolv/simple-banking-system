@@ -58,7 +58,7 @@
                 </div>
 
                 <div class="cardBtns">
-                    <button class="deleteBtn">
+                    <button class="deleteBtn" th:data-id="${banco.id}" onclick="deletarBanco(this)">
                         Deletar
                     </button>
                     <button class="updateBtn">
@@ -88,46 +88,36 @@
 
             div.innerHTML = `
                 <h3>Banco Encontrado:</h3>
-                <div>
-                    <span class="cardSpan">ID: </span>
-                    <span>  ${banco.id} </span>
-                </div>
-                <div>
-                    <span class="cardSpan">Nome: </span>
-                    <span>  ${banco.nome} </span>
-                </div>
-                <div>
-                    <span class="cardSpan">CNPJ: </span>
-                    <span> ${banco.cnpj} </span>
-                 </div>
-                <div>
-                    <span class="cardSpan">Cidade: </span>
-                    <span> ${banco.cidade} </span>
-                 </div>
-                <div>
-                    <span class="cardSpan">Estado: </span>
-                    <span> ${banco.estado} </span>
-                </div>
-                <div>
-                    <span class="cardSpan">Presidente: </span>
-                    <span> ${banco.presidente} </span>
-                 </div>
-                 <div class="cardBtns">
-                    <button class="deleteBtn">
-                        Deletar
-                    </button>
-                    <button class="updateBtn">
-                        Alterar
-                    </button>
+                <div><span class="cardSpan">ID: </span> ${banco.id}</div>
+                <div><span class="cardSpan">Nome: </span> ${banco.nome}</div>
+                <div><span class="cardSpan">CNPJ: </span> ${banco.cnpj}</div>
+                <div><span class="cardSpan">Cidade: </span> ${banco.cidade}</div>
+                <div><span class="cardSpan">Estado: </span> ${banco.estado}</div>
+                <div><span class="cardSpan">Presidente: </span> ${banco.presidente}</div>
+                <div class="cardBtns">
+                    <button class="deleteBtn" onclick="deletarBanco(${banco.id})">Deletar</button>
                 </div>
             `;
             div.style.display = "block";
-
         } catch (error) {
             console.error("Erro ao buscar o banco:", error);
             div.style.display = "none";
         }
     });
+
+    function deletarBanco(id) {
+        if (confirm("Tem certeza que deseja deletar este banco?")) {
+            fetch(`/banco/${id}`, { method: "DELETE" })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        console.error("Erro ao deletar o banco.");
+                    }
+                })
+                .catch(error => console.error("Erro:", error));
+        }
+    }
 </script>
 </body>
 </html>
