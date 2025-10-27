@@ -9,11 +9,20 @@
 </head>
 <body>
 <section class="main" >
-    <h1 class="title">Agência de Bancos</h1>
+    <h1 class="title">Agências Bancárias</h1>
 
-    <button class="addBtn"> Cadastrar </button>
+    <div class="upperDiv">
+        <a th:href="@{/formulario}"  class="addBtn"> Cadastrar </a>
+        <form id="searchForm">
+            <input  class="idInput" type="number" id="idInput" placeholder="ID do banco">
+            <button class="searchBtn" type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+    </div>
 
-    <button class="searchBtn"> <i class="fa-solid fa-magnifying-glass"></i></button>
+
+    <div id="bancoEncontrado" class="card" style="display: none;"></div>
 
     <div class="bankListDiv">
         <h2>Bancos Cadastrados</h2>
@@ -60,6 +69,65 @@
         </tr>
     </div>
 </section>
+<script>
+    document.getElementById("searchForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
 
+        const id = document.getElementById("idInput").value;
+        const div = document.getElementById("bancoEncontrado");
+
+        try {
+            const response = await fetch(`/api/bancos/${id}`);
+
+            if (!response.ok) {
+                div.style.display = "none";
+                return;
+            }
+
+            const banco = await response.json();
+
+            div.innerHTML = `
+                <h3>Banco Encontrado:</h3>
+                <div>
+                    <span class="cardSpan">ID: </span>
+                    <span>  ${banco.id} </span>
+                </div>
+                <div>
+                    <span class="cardSpan">Nome: </span>
+                    <span>  ${banco.nome} </span>
+                </div>
+                <div>
+                    <span class="cardSpan">CNPJ: </span>
+                    <span> ${banco.cnpj} </span>
+                 </div>
+                <div>
+                    <span class="cardSpan">Cidade: </span>
+                    <span> ${banco.cidade} </span>
+                 </div>
+                <div>
+                    <span class="cardSpan">Estado: </span>
+                    <span> ${banco.estado} </span>
+                </div>
+                <div>
+                    <span class="cardSpan">Presidente: </span>
+                    <span> ${banco.presidente} </span>
+                 </div>
+                 <div class="cardBtns">
+                    <button class="deleteBtn">
+                        Deletar
+                    </button>
+                    <button class="updateBtn">
+                        Alterar
+                    </button>
+                </div>
+            `;
+            div.style.display = "block";
+
+        } catch (error) {
+            console.error("Erro ao buscar o banco:", error);
+            div.style.display = "none";
+        }
+    });
+</script>
 </body>
 </html>
