@@ -82,25 +82,96 @@ body{
     border: none;
 }
 
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  width: 350px;
+  text-align: center;
+}
+.modalGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr; /
+    gap: 20px;
+}
+
+.modalInput{
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px;
+    background-color: #f2f2f3;
+    color: #797986;
+    border: none;
+}
+.modalBtns {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.closeModalBtn{
+    color: white;
+    background-color: #f2f2f3;
+    color: #797986;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+.saveModalBtn{
+     color: white;
+    background-color: #00cc99;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
 /* --------FORMULARIO --------- */
 
 
 .formBank {
-     padding: 20px;
-     text-align: center;
-     height: 40vh;
-     width: 25%;
-     box-shadow: 1px 2px 4px #DCDCDC;
-     border: none;
-     border-radius: 5px;
+     position: fixed;
+     top: 35%;
+     left: 35%;
+     width: 100vw;
+     height: 100vh;
+     justify-content: center;
+     align-items: center;
 }
-.formDiv{
-    margin: 10px;
-    display: block;
+
+.formContent{
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    width: 350px;
+    text-align: center;
+}
+.formGrid{
+      display: grid;
+      grid-template-columns: 1fr 1fr; /
+      gap: 20px;
 }
 .formInput{
     padding: 10px;
     border-radius: 5px;
+    margin: 10px;
     background-color: #f2f2f3;
     color: #797986;
     border: none;

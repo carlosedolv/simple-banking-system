@@ -61,13 +61,45 @@
                     <button class="deleteBtn" th:data-id="${banco.id}" onclick="deletarBanco(this)">
                         Deletar
                     </button>
-                    <button class="updateBtn">
+                    <button
+                            class="updateBtn"
+                            th:data-id="${banco.id}"
+                            th:data-nome="${banco.nome}"
+                            th:data-cidade="${banco.cidade}"
+                            th:data-cnpj="${banco.cnpj}"
+                            th:data-codigo="${banco.codigo}"
+                            th:data-estado="${banco.estado}"
+                            th:data-presidente="${banco.presidente}"
+                            onclick="abrirModal(this)"
+                    >
                         Alterar
                     </button>
                 </div>
             </div>
         </tr>
     </div>
+
+    <div id="modalOverlay" class="modalOverlay">
+        <div class="modalContent">
+            <h3>Editar Banco</h3>
+            <form id="formEditar" th:action="@{/banco/update}" method="post">
+                <div class="modalGrid">
+                    <input type="hidden" name="id" id="bancoId" />
+                    <input type="text" name="nome" class="modalInput" id="bancoNome" placeholder="Nome" required />
+                    <input type="text" name="cidade" class="modalInput" id="bancoCidade" placeholder="Cidade" required />
+                    <input type="text" name="cnpj" class="modalInput" id="bancoCNPJ" placeholder="CNPJ" required />
+                    <input type="number" name="codigo" class="modalInput" id="bancoCodigo" placeholder="Código" required />
+                    <input type="text" name="estado" class="modalInput" id="bancoEstado" placeholder="Estado" required />
+                    <input type="text" name="presidente" class="modalInput" id="bancoPresidente" placeholder="Presidente" required />
+                </div>
+                <div class="modalBtns">
+                    <button type="button" class="closeModalBtn" onclick="fecharModal()">Cancelar</button>
+                    <button type="submit" class="saveModalBtn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </section>
 <script>
     document.getElementById("searchForm").addEventListener("submit", async (e) => {
@@ -107,7 +139,7 @@
 
     function deletarBanco(id) {
         if (confirm("Tem certeza que deseja deletar este banco?")) {
-            fetch(`/banco/${id}`, { method: "DELETE" })
+            fetch(`/bancos/${id}`, { method: "DELETE" })
                 .then(response => {
                     if (response.ok) {
                         window.location.reload();
@@ -118,6 +150,42 @@
                 .catch(error => console.error("Erro:", error));
         }
     }
+     function abrirModal(botao) {
+        document.getElementById("bancoId").value = botao.dataset.id;
+        document.getElementById("bancoNome").value = botao.dataset.nome;
+        document.getElementById("bancoCidade").value = botao.dataset.cidade;
+        document.getElementById("bancoCNPJ").value = botao.dataset.cnpj;
+        document.getElementById("bancoCodigo").value = botao.dataset.codigo;
+        document.getElementById("bancoEstado").value = botao.dataset.estado;
+        document.getElementById("bancoPresidente").value = botao.dataset.presidente;
+
+        document.getElementById("modalOverlay").style.display = "flex";
+    }
+
+    function fecharModal() {
+      document.getElementById("modalOverlay").style.display = "none";
+    }
+
+    document.getElementById("formEditar").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const id = document.getElementById("bancoId").value;
+        const nome = document.getElementById("bancoNome").value;
+        const cidade = document.getElementById("bancoCidade").value;
+        const cnpj = document.getElementById("bancoCNPJ").value;
+        const codigo = document.getElementById("bancoCodigo").value;
+        const estado = document.getElementById("bancoEstado").value;
+        const presidente = document.getElementById("bancoPresidente").value;
+
+        const response = await fetch(`/bancos/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nome, cidade, cnpj, codigo, estado, presidente })
+        });
+         if (response.ok) {
+            window.location.reload();
+        }
+    });
 </script>
 </body>
 </html>

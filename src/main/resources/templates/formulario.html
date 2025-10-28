@@ -7,37 +7,29 @@
 </head>
 <body>
     <section class="formBank">
-        <form th:action="@{/insert}" th:object="${banco}" method="post">
-            <h3> Cadastre um banco</h3>
-            <div class="formDiv">
-                <input type="text" th:field="*{nome}"  class="formInput" placeholder="Nome"/>
-            </div>
-            <div class="formDiv">
-                <input type="text" th:field="*{cnpj}"  class="formInput" placeholder="CNPJ"/>
-            </div>
-            <div class="formDiv">
-                <input type="number" th:field="*{codigo}"  class="formInput" placeholder="Código"/>
-            </div>
-            <div class="formDiv">
-                <input type="text" th:field="*{cidade}"  class="formInput" placeholder="Cidade"/>
-            </div>
-            <div class="formDiv">
-                <input type="text" th:field="*{estado}"  class="formInput" placeholder="Estado"/>
-            </div>
-            <div class="formDiv">
-                <input type="text" th:field="*{presidente}"  class="formInput" placeholder="Presidente"/>
-            </div>
+        <div class="formContent">
+            <form th:action="@{/insert}" th:object="${banco}" method="post">
+                <h3> Cadastre um banco</h3>
+                <div class="formGrid">
+                    <input type="text" th:field="*{nome}"  class="formInput" placeholder="Nome" required/>
+                    <input type="text" th:field="*{cnpj}"  class="formInput" placeholder="CNPJ" required/>
+                    <input type="number" th:field="*{codigo}"  class="formInput" placeholder="Código" required/>
+                    <input type="text" th:field="*{cidade}"  class="formInput" placeholder="Cidade" required/>
+                    <input type="text" th:field="*{estado}"  class="formInput" placeholder="Estado" required/>
+                    <input type="text" th:field="*{presidente}"  class="formInput" placeholder="Presidente" required/>
+                </div>
 
-            <div class="formBtns">
-                <button type="reset" class="cleanBtn">
-                    Limpar
-                </button>
+                <div class="formBtns">
+                    <button type="reset" class="cleanBtn">
+                        Limpar
+                    </button>
 
-                <button type="submit" class="submitBtn">
-                    Cadastrar
-                </button>
-            </div>
-        </form>
+                    <button type="submit" class="submitBtn">
+                        Cadastrar
+                    </button>
+                </div>
+            </form>
+        </div>
 
     </section>
         <div class="returnBtnDiv">
