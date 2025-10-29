@@ -59,7 +59,9 @@
             </div>
 
             <div class="cardBtns">
-                <button class="deleteBtn" th:data-id="${banco.id}" onclick="deletarBanco(this)">Deletar</button>
+                <button class="deleteBtn" th:data-id="${banco.id}" onclick="deletarBanco(this)">
+                    Deletar
+                </button>
                 <button
                         class="updateBtn"
                         th:data-id="${banco.id}"
@@ -121,7 +123,7 @@
 
             div.innerHTML = `
                 <h3>Banco Encontrado:</h3>
-                <div><span class="cardSpan">ID: </span> ${banco.id}</div>
+                <div><span class="cardSpan">ID do Banco: </span> ${banco.id}</div>
                 <div><span class="cardSpan">Nome: </span> ${banco.nome}</div>
                 <div><span class="cardSpan">CNPJ: </span> ${banco.cnpj}</div>
                 <div><span class="cardSpan">Cidade: </span> ${banco.cidade}</div>
@@ -143,6 +145,9 @@
                     >
                         Alterar
                     </button>
+
+                    <a href="/agencia/listaAgencias" class="agencyBtn">Agências</a>
+
                 </div>
             `;
             div.style.display = "block";
@@ -152,7 +157,8 @@
         }
     });
 
-    function deletarBanco(id) {
+    function deletarBanco(botao) {
+      const id = botao.dataset.id || botao;
         if (confirm("Tem certeza que deseja deletar este banco?")) {
             fetch(`/bancos/${id}`, { method: "DELETE" })
                 .then(response => {

@@ -18,15 +18,8 @@
     <div class="upperDiv">
         <a th:href="@{/agencia/formulario}" class="addBtn">Cadastrar</a>
 
-        <form id="searchForm">
-            <input class="idInput" type="number" id="idInput" placeholder="ID da agência">
-            <button class="searchBtn" type="submit">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
     </div>
 
-    <div id="agenciaEncontrada" class="card" style="display: none;"></div>
 
     <div class="agencyListDiv">
         <h2>Agências Cadastradas</h2>
@@ -55,6 +48,10 @@
                     Data Fundação:
                 </span>
                 <span th:text="${agencia.dataFundacao}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">Situação: </span>
+                <span th:text="${agencia.situacao}"></span>
             </div>
             <div>
                 <span class="cardSpan">
@@ -104,6 +101,12 @@
                 </span>
                 <span th:text="${agencia.email}"></span>
             </div>
+            <div>
+                <span class="cardSpan">
+                    ID do Banco:
+                </span>
+                <span th:text="${agencia.banco.id}"></span>
+            </div>
 
             <div class="cardBtns">
                 <button class="deleteBtn" th:data-id="${agencia.id}" onclick="deletarAgencia(this)">Deletar</button>
@@ -113,6 +116,7 @@
                         th:data-nome="${agencia.nome}"
                         th:data-codigo="${agencia.codigo}"
                         th:data-datafundacao="${agencia.dataFundacao}"
+                        th:data-situacao="${agencia.situacao}"
                         th:data-gerente="${agencia.gerente}"
                         th:data-endereco="${agencia.endereco}"
                         th:data-bairro="${agencia.bairro}"
@@ -121,6 +125,7 @@
                         th:data-cep="${agencia.cep}"
                         th:data-telefone="${agencia.telefone}"
                         th:data-email="${agencia.email}"
+                        th:data-banco-id="${agencia.banco.id}"
                         onclick="abrirModal(this)">
                     Alterar
                 </button>
@@ -131,12 +136,19 @@
     <div id="modalOverlay" class="modalOverlay">
         <div class="modalContent">
             <h3>Editar Agência</h3>
-            <form id="formEdit" th:action="@{/agencia/update}" method="put">
+            <form id="formEdit" method="put">
                 <div class="modalGrid">
                     <input type="hidden" name="id" id="agenciaId" />
                     <input type="text" name="nome" class="modalInput" id="agenciaNome" placeholder="Nome" required />
                     <input type="text" name="codigo" class="modalInput" id="agenciaCodigo" placeholder="Código" required />
                     <input type="date" name="dataFundacao" class="modalInput" id="agenciaDataFundacao" required />
+                    <select name="situacao" class="modalInput" id="agenciaSituacao" required>
+                        <option value="">Selecione a Situação</option>
+                        <option value="ATIVA">Ativa</option>
+                        <option value="ENCERRADA">Encerrada</option>
+                        <option value="EM_REFORMA">Em Reforma</option>
+                        <option value="DESATIVADA">Desativada</option>
+                    </select>
                     <input type="text" name="gerente" class="modalInput" id="agenciaGerente" placeholder="Gerente" required />
                     <input type="text" name="endereco" class="modalInput" id="agenciaEndereco" placeholder="Endereço" required />
                     <input type="text" name="bairro" class="modalInput" id="agenciaBairro" placeholder="Bairro" required />
@@ -145,6 +157,7 @@
                     <input type="text" name="cep" class="modalInput" id="agenciaCep" placeholder="CEP" required />
                     <input type="text" name="telefone" class="modalInput" id="agenciaTelefone" placeholder="Telefone" required />
                     <input type="email" name="email" class="modalInput" id="agenciaEmail" placeholder="Email" required />
+                    <input type="hidden" id="agenciaBancoId" name="banco.id" />
                 </div>
                 <div class="modalBtns">
                     <button type="button" class="closeModalBtn" onclick="fecharModal()">Cancelar</button>
@@ -157,50 +170,6 @@
 </section>
 
 <script>
-    document.getElementById("searchForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const id = document.getElementById("idInput").value;
-        const div = document.getElementById("agenciaEncontrada");
-
-        try {
-            const response = await fetch(`/api/agencias/${id}`);
-            if (!response.ok) {
-                div.style.display = "none";
-                return;
-            }
-
-            const agencia = await response.json();
-            div.innerHTML = `
-                <h3>Agência Encontrada:</h3>
-                <div><span class="cardSpan">ID: </span> ${agencia.id}</div>
-                <div><span class="cardSpan">Nome: </span> ${agencia.nome}</div>
-                <div><span class="cardSpan">Código: </span> ${agencia.codigo}</div>
-                <div><span class="cardSpan">Gerente: </span> ${agencia.gerente}</div>
-                <div><span class="cardSpan">Cidade: </span> ${agencia.cidade}</div>
-                <div><span class="cardSpan">Estado: </span> ${agencia.estado}</div>
-                <div><span class="cardSpan">Telefone: </span> ${agencia.telefone}</div>
-                <div><span class="cardSpan">Email: </span> ${agencia.email}</div>
-                <div class="cardBtns">
-                    <button class="deleteBtn" onclick="deletarAgencia(${agencia.id})">Deletar</button>
-                    <button class="updateBtn"
-                        data-id="${agencia.id}"
-                        data-nome="${agencia.nome}"
-                        data-codigo="${agencia.codigo}"
-                        data-gerente="${agencia.gerente}"
-                        data-cidade="${agencia.cidade}"
-                        data-estado="${agencia.estado}"
-                        data-telefone="${agencia.telefone}"
-                        data-email="${agencia.email}"
-                        onclick="abrirModal(this)">Alterar</button>
-                </div>
-            `;
-            div.style.display = "block";
-        } catch (error) {
-            console.error("Erro ao buscar a agência:", error);
-            div.style.display = "none";
-        }
-    });
-
     function deletarAgencia(botao) {
         const id = botao.dataset.id || botao;
         if (confirm("Tem certeza que deseja deletar esta agência?")) {
@@ -222,6 +191,7 @@
         document.getElementById("agenciaNome").value = botao.dataset.nome;
         document.getElementById("agenciaCodigo").value = botao.dataset.codigo;
         document.getElementById("agenciaDataFundacao").value = botao.dataset.datafundacao;
+        document.getElementById("agenciaSituacao").value = botao.dataset.situacao;
         document.getElementById("agenciaGerente").value = botao.dataset.gerente;
         document.getElementById("agenciaEndereco").value = botao.dataset.endereco;
         document.getElementById("agenciaBairro").value = botao.dataset.bairro;
@@ -230,6 +200,7 @@
         document.getElementById("agenciaCep").value = botao.dataset.cep;
         document.getElementById("agenciaTelefone").value = botao.dataset.telefone;
         document.getElementById("agenciaEmail").value = botao.dataset.email;
+        document.getElementById("agenciaBancoId").value = botao.dataset.bancoId;
         document.getElementById("modalOverlay").style.display = "flex";
     }
 
@@ -245,6 +216,7 @@
             nome: document.getElementById("agenciaNome").value,
             codigo: document.getElementById("agenciaCodigo").value,
             dataFundacao: document.getElementById("agenciaDataFundacao").value,
+            situacao: document.getElementById("agenciaSituacao").value,
             gerente: document.getElementById("agenciaGerente").value,
             endereco: document.getElementById("agenciaEndereco").value,
             bairro: document.getElementById("agenciaBairro").value,
@@ -252,7 +224,8 @@
             estado: document.getElementById("agenciaEstado").value,
             cep: document.getElementById("agenciaCep").value,
             telefone: document.getElementById("agenciaTelefone").value,
-            email: document.getElementById("agenciaEmail").value
+            email: document.getElementById("agenciaEmail").value,
+            banco: { id: document.getElementById("agenciaBancoId").value }
         };
 
         const response = await fetch(`/agencias/${id}`, {

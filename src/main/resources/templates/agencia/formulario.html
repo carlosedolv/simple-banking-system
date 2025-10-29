@@ -16,6 +16,13 @@
                 <input type="text" th:field="*{nome}" class="formInput" placeholder="Nome" required/>
                 <input type="text" th:field="*{codigo}" class="formInput" placeholder="Código" required/>
                 <input type="date" th:field="*{dataFundacao}" class="formInput" placeholder="Data de Fundação" required/>
+                <select th:field="*{situacao}" class="formInput" required>
+                    <option value="">Situação</option>
+                    <option value="ATIVA">Ativa</option>
+                    <option value="ENCERRADA">Encerrada</option>
+                    <option value="EM_REFORMA">Em Reforma</option>
+                    <option value="DESATIVADA">Desativada</option>
+                </select>
                 <input type="text" th:field="*{gerente}" class="formInput" placeholder="Gerente" required/>
                 <input type="text" th:field="*{endereco}" class="formInput" placeholder="Endereço" required/>
                 <input type="text" th:field="*{bairro}" class="formInput" placeholder="Bairro" required/>
@@ -24,7 +31,13 @@
                 <input type="text" th:field="*{cep}" class="formInput" placeholder="CEP" required/>
                 <input type="text" th:field="*{telefone}" class="formInput" placeholder="Telefone" required/>
                 <input type="email" th:field="*{email}" class="formInput" placeholder="Email" required/>
-
+                <select th:field="*{banco}" class="formInput" required>
+                    <option value="">Selecione o Banco</option>
+                    <option th:each="banco : ${bancos}"
+                            th:value="${banco.id}"
+                            th:text="${banco.nome}">
+                    </option>
+                </select>
             </div>
 
             <div class="formBtns">

@@ -18,17 +18,20 @@ public class ListaAgenciasController {
 
 
     @GetMapping("/agencia/listaAgencias")
-    public String listaAgencias(Model model) {
-        List<Agencia> agencias= service.findAll();
+    public String listaAgencias(
+            @RequestParam(value = "id", required = false) Long id,
+            Model model
+    ) {
+        List<Agencia> agencias = service.findAll();
         model.addAttribute("agencias", agencias);
+
+        if (id != null) {
+            Agencia agencia = service.findById(id);
+            model.addAttribute("agenciaEncontrada", agencia);
+        }
+
         return "/agencia/listaAgencias";
     }
 
-    @GetMapping("/api/agencias/{id}")
-    @ResponseBody
-    public Agencia exibirAgencia(@PathVariable Long id) {
-        return service.findById(id);
-
-    }
 
 }
