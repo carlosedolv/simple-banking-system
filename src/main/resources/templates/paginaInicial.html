@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Página Inicial</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/banco/styles.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" th:href="@{/images/bankIcon.png}">
 </head>
 <body>
 <section class="main" >
@@ -26,63 +27,63 @@
 
     <div class="bankListDiv">
         <h2>Bancos Cadastrados</h2>
-        <tr th:each="banco : ${bancos}">
-            <div class="card">
-                <div>
-                    <span class="cardSpan">Id do Banco: </span>
-                    <td th:text="${banco.id}"></td>
-                </div>
-                <div>
-                    <span class="cardSpan">Nome: </span>
-                    <td th:text="${banco.nome}"></td>
-                </div>
-                <div>
-                    <span class="cardSpan">CNPJ: </span>
-                    <td th:text="${banco.cnpj}"></td>
-                </div>
-                <div>
-                    <span class="cardSpan">Código: </span>
-                    <td th:text="${banco.codigo}"></td>
-                </div>
-                <div>
-                    <span class="cardSpan">Cidade: </span>
-                    <td th:text="${banco.cidade}"></td>
-                </div>
-                <div>
-                    <span class="cardSpan">Estado: </span>
-                    <td th:text="${banco.estado}"></td>
-                </div>
-                <div>
-                    <span class="cardSpan">Presidente: </span>
-                    <td th:text="${banco.presidente}"></td>
-                </div>
 
-                <div class="cardBtns">
-                    <button class="deleteBtn" th:data-id="${banco.id}" onclick="deletarBanco(this)">
-                        Deletar
-                    </button>
-                    <button
-                            class="updateBtn"
-                            th:data-id="${banco.id}"
-                            th:data-nome="${banco.nome}"
-                            th:data-cidade="${banco.cidade}"
-                            th:data-cnpj="${banco.cnpj}"
-                            th:data-codigo="${banco.codigo}"
-                            th:data-estado="${banco.estado}"
-                            th:data-presidente="${banco.presidente}"
-                            onclick="abrirModal(this)"
-                    >
-                        Alterar
-                    </button>
-                </div>
+        <div th:each="banco : ${bancos}" class="card">
+            <div>
+                <span class="cardSpan">Id do Banco: </span>
+                <span th:text="${banco.id}"></span>
             </div>
-        </tr>
+            <div>
+                <span class="cardSpan">Nome: </span>
+                <span th:text="${banco.nome}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">CNPJ: </span>
+                <span th:text="${banco.cnpj}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">Código: </span>
+                <span th:text="${banco.codigo}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">Cidade: </span>
+                <span th:text="${banco.cidade}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">Estado: </span>
+                <span th:text="${banco.estado}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">Presidente: </span>
+                <span th:text="${banco.presidente}"></span>
+            </div>
+
+            <div class="cardBtns">
+                <button class="deleteBtn" th:data-id="${banco.id}" onclick="deletarBanco(this)">Deletar</button>
+                <button
+                        class="updateBtn"
+                        th:data-id="${banco.id}"
+                        th:data-nome="${banco.nome}"
+                        th:data-cidade="${banco.cidade}"
+                        th:data-cnpj="${banco.cnpj}"
+                        th:data-codigo="${banco.codigo}"
+                        th:data-estado="${banco.estado}"
+                        th:data-presidente="${banco.presidente}"
+                        onclick="abrirModal(this)"
+                >
+                    Alterar
+                </button>
+
+                <a th:href="@{/agencia/listaAgencias}" class="agencyBtn">Agências</a>
+            </div>
+        </div>
     </div>
+
 
     <div id="modalOverlay" class="modalOverlay">
         <div class="modalContent">
             <h3>Editar Banco</h3>
-            <form id="formEditar" th:action="@{/banco/update}" method="post">
+            <form id="formEdit" th:action="@{/banco/update}" method="put">
                 <div class="modalGrid">
                     <input type="hidden" name="id" id="bancoId" />
                     <input type="text" name="nome" class="modalInput" id="bancoNome" placeholder="Nome" required />
@@ -128,6 +129,20 @@
                 <div><span class="cardSpan">Presidente: </span> ${banco.presidente}</div>
                 <div class="cardBtns">
                     <button class="deleteBtn" onclick="deletarBanco(${banco.id})">Deletar</button>
+
+                    <button
+                        class="updateBtn"
+                        data-id="${banco.id}"
+                        data-nome="${banco.nome}"
+                        data-cidade="${banco.cidade}"
+                        data-cnpj="${banco.cnpj}"
+                        data-codigo="${banco.codigo}"
+                        data-estado="${banco.estado}"
+                        data-presidente="${banco.presidente}"
+                        onclick="abrirModal(this)"
+                    >
+                        Alterar
+                    </button>
                 </div>
             `;
             div.style.display = "block";
@@ -166,7 +181,7 @@
       document.getElementById("modalOverlay").style.display = "none";
     }
 
-    document.getElementById("formEditar").addEventListener("submit", async (e) => {
+    document.getElementById("formEdit").addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const id = document.getElementById("bancoId").value;

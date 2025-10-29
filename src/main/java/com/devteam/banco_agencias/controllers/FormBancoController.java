@@ -22,7 +22,7 @@ public class FormBancoController {
         return "formulario";
     }
 
-    @PostMapping("/insert")
+    @PostMapping("/bancos/insert")
     public String cadastrarBanco(@ModelAttribute Banco banco) {
         service.insert(banco);
         return "redirect:/";
