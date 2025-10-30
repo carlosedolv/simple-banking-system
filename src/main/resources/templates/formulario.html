@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<link rel="stylesheet" th:href="@{/css/banco/styles.css}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário de Banco</title>
+</head>
+<body>
+    <section class="formBank">
+        <div class="formContent">
+            <form th:action="@{/bancos/insert}" th:object="${banco}" method="post">
+                <h3> Cadastre um banco</h3>
+                <div class="formGrid">
+                    <input type="text" th:field="*{nome}"  class="formInput" placeholder="Nome" required/>
+                    <input type="text" th:field="*{cnpj}"  class="formInput" placeholder="CNPJ" required/>
+                    <input type="number" th:field="*{codigo}"  class="formInput" placeholder="Código" required/>
+                    <input type="text" th:field="*{cidade}"  class="formInput" placeholder="Cidade" required/>
+                    <input type="text" th:field="*{estado}"  class="formInput" placeholder="Estado" required/>
+                    <input type="text" th:field="*{presidente}"  class="formInput" placeholder="Presidente" required/>
+                </div>
+
+                <div class="formBtns">
+                    <button type="reset" class="cleanBtn">
+                        Limpar
+                    </button>
+
+                    <button type="submit" class="submitBtn">
+                        Cadastrar
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </section>
+        <div class="returnBtnDiv">
+            <a th:href="@{/}" class="returnBtn">
+                <i class="fa-regular fa-circle-left"></i>
+            </a>
+        </div>
+</body>
+</html>

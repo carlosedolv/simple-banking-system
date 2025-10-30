@@ -1,0 +1,221 @@
+.* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+body{
+       display: flex;
+        justify-content: center;
+        height: 100vh;
+        font-family: 'Roboto', sans-serif;
+}
+
+/* -------- LISTA AGENCIAS --------- */
+.main {
+        padding: 20px;
+        text-align: center;
+}
+
+.upperDiv{
+    margin: 10px 20px;
+    display: flex;
+    justify-content: center;
+}
+.addBtn{
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0px 10px;
+    background-color: #00cc99;
+    border: none;
+    color: white;
+    align-text: center;
+    text-decoration: none;
+}
+
+.idInput{
+   padding: 10px;
+   margin: 0px 5px;
+   border-radius: 5px;
+   background-color: #f2f2f3;
+   color: #797986;
+   border: none;
+}
+
+.card{
+   padding: 10px;
+   margin: 15px;
+   border-radius: 10px;
+   box-shadow: 1px 2px 4px #DCDCDC;
+   text-align: justify;
+}
+.cardSpan {
+    color: #0033CC;
+}
+
+.cardBtns{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     gap: 10px;
+     margin-top: 10px;
+}
+
+.deleteBtn{
+    color: white;
+    background-color: red;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.updateBtn{
+    color: white;
+    background-color: #0066FF;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  width: 350px;
+  text-align: center;
+}
+.modalGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr; /
+    gap: 20px;
+}
+
+.modalInput{
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px;
+    background-color: #f2f2f3;
+    color: #797986;
+    border: none;
+}
+.modalBtns {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.closeModalBtn{
+    color: white;
+    background-color: #f2f2f3;
+    color: #797986;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.saveModalBtn{
+     color: white;
+    background-color: #00cc99;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+/* --------FORMULARIO --------- */
+
+
+.formAgency {
+     position: fixed;
+     top: 25%;
+     left: 40%;
+     width: 100vw;
+     height: 100vh;
+     justify-content: center;
+     align-items: center;
+}
+
+.formContent{
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    width: 350px;
+    text-align: center;
+}
+.formGrid{
+      display: grid;
+      grid-template-columns: 1fr 1fr; /
+      gap: 20px;
+}
+.formInput{
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px;
+    background-color: #f2f2f3;
+    color: #797986;
+    border: none;
+}
+
+.formBtns{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.submitBtn{
+    color: white;
+    background-color: #00cc99;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.cleanBtn{
+    color: white;
+    background-color: #f2f2f3;
+    color: #797986;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.returnBtnDiv{
+    position: fixed;
+    top: 20px;
+    left: 5%;
+    transform: translateX(-50%);
+}
+.returnBtn{
+    color: #797986;
+    padding: 10px;
+    font-size: 25px;
+    border-radius: 5px;
+    border: none;
+    text-decoration: none;
+}

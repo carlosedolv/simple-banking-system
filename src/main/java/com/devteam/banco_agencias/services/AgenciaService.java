@@ -28,6 +28,7 @@ public class AgenciaService {
 		return agencia.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
+
 	public Agencia insert(Agencia agencia) {
 		repository.save(agencia);
 		return agencia;

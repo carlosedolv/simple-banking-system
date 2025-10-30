@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Agências</title>
+    <link rel="stylesheet" th:href="@{/css/agencia/styles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" th:href="@{/images/bankIcon.png}">
+</head>
+<body>
+<div class="returnBtnDiv">
+    <a th:href="@{/}" class="returnBtn"><i class="fa-regular fa-circle-left"></i></a>
+</div>
+<section class="main">
+    <h1 class="title">Agências Bancárias</h1>
+
+    <div class="upperDiv">
+        <a th:href="@{/agencia/formulario}" class="addBtn">Cadastrar</a>
+
+    </div>
+
+
+    <div class="agencyListDiv">
+        <h2>Agências Cadastradas</h2>
+
+        <div th:each="agencia : ${agencias}" class="card">
+            <div>
+                <span class="cardSpan">
+                    ID:
+                </span>
+                <span th:text="${agencia.id}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">
+                    Nome:
+                </span>
+                <span th:text="${agencia.nome}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">
+                    Código:
+                </span>
+                <span th:text="${agencia.codigo}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">
+                    Data Fundação:
+                </span>
+                <span th:text="${agencia.dataFundacao}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">Situação: </span>
+                <span th:text="${agencia.situacao}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">
+                    Gerente:
+                </span>
+                <span th:text="${agencia.gerente}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">
+                    Endereço:
+                </span>
+                <span th:text="${agencia.endereco}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">
+                    Bairro:
+                </span>
+                <span th:text="${agencia.bairro}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">
+                    Cidade:
+                </span>
+                <span th:text="${agencia.cidade}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">
+                    Estado:
+                </span>
+                <span th:text="${agencia.estado}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">
+                    CEP:
+                </span>
+                <span th:text="${agencia.cep}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">
+                    Telefone:
+                </span>
+                <span th:text="${agencia.telefone}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">
+                    Email:
+                </span>
+                <span th:text="${agencia.email}"></span>
+            </div>
+            <div>
+                <span class="cardSpan">
+                    ID do Banco:
+                </span>
+                <span th:text="${agencia.banco.id}"></span>
+            </div>
+
+            <div class="cardBtns">
+                <button class="deleteBtn" th:data-id="${agencia.id}" onclick="deletarAgencia(this)">Deletar</button>
+
+                <button class="updateBtn"
+                        th:data-id="${agencia.id}"
+                        th:data-nome="${agencia.nome}"
+                        th:data-codigo="${agencia.codigo}"
+                        th:data-datafundacao="${agencia.dataFundacao}"
+                        th:data-situacao="${agencia.situacao}"
+                        th:data-gerente="${agencia.gerente}"
+                        th:data-endereco="${agencia.endereco}"
+                        th:data-bairro="${agencia.bairro}"
+                        th:data-cidade="${agencia.cidade}"
+                        th:data-estado="${agencia.estado}"
+                        th:data-cep="${agencia.cep}"
+                        th:data-telefone="${agencia.telefone}"
+                        th:data-email="${agencia.email}"
+                        th:data-banco-id="${agencia.banco.id}"
+                        onclick="abrirModal(this)">
+                    Alterar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalOverlay" class="modalOverlay">
+        <div class="modalContent">
+            <h3>Editar Agência</h3>
+            <form id="formEdit" method="put">
+                <div class="modalGrid">
+                    <input type="hidden" name="id" id="agenciaId" />
+                    <input type="text" name="nome" class="modalInput" id="agenciaNome" placeholder="Nome" required />
+                    <input type="text" name="codigo" class="modalInput" id="agenciaCodigo" placeholder="Código" required />
+                    <input type="date" name="dataFundacao" class="modalInput" id="agenciaDataFundacao" required />
+                    <select name="situacao" class="modalInput" id="agenciaSituacao" required>
+                        <option value="">Selecione a Situação</option>
+                        <option value="ATIVA">Ativa</option>
+                        <option value="ENCERRADA">Encerrada</option>
+                        <option value="EM_REFORMA">Em Reforma</option>
+                        <option value="DESATIVADA">Desativada</option>
+                    </select>
+                    <input type="text" name="gerente" class="modalInput" id="agenciaGerente" placeholder="Gerente" required />
+                    <input type="text" name="endereco" class="modalInput" id="agenciaEndereco" placeholder="Endereço" required />
+                    <input type="text" name="bairro" class="modalInput" id="agenciaBairro" placeholder="Bairro" required />
+                    <input type="text" name="cidade" class="modalInput" id="agenciaCidade" placeholder="Cidade" required />
+                    <input type="text" name="estado" class="modalInput" id="agenciaEstado" placeholder="Estado" required />
+                    <input type="text" name="cep" class="modalInput" id="agenciaCep" placeholder="CEP" required />
+                    <input type="text" name="telefone" class="modalInput" id="agenciaTelefone" placeholder="Telefone" required />
+                    <input type="email" name="email" class="modalInput" id="agenciaEmail" placeholder="Email" required />
+                    <input type="hidden" id="agenciaBancoId" name="banco.id" />
+                </div>
+                <div class="modalBtns">
+                    <button type="button" class="closeModalBtn" onclick="fecharModal()">Cancelar</button>
+                    <button type="submit" class="saveModalBtn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    function deletarAgencia(botao) {
+        const id = botao.dataset.id || botao;
+        if (confirm("Tem certeza que deseja deletar esta agência?")) {
+            fetch(`/agencias/${id}`, { method: "DELETE" })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        console.error("Erro ao deletar a agência.");
+                    }
+                })
+                .catch(error => console.error("Erro:", error));
+        }
+    }
+
+
+    function abrirModal(botao) {
+        document.getElementById("agenciaId").value = botao.dataset.id;
+        document.getElementById("agenciaNome").value = botao.dataset.nome;
+        document.getElementById("agenciaCodigo").value = botao.dataset.codigo;
+        document.getElementById("agenciaDataFundacao").value = botao.dataset.datafundacao;
+        document.getElementById("agenciaSituacao").value = botao.dataset.situacao;
+        document.getElementById("agenciaGerente").value = botao.dataset.gerente;
+        document.getElementById("agenciaEndereco").value = botao.dataset.endereco;
+        document.getElementById("agenciaBairro").value = botao.dataset.bairro;
+        document.getElementById("agenciaCidade").value = botao.dataset.cidade;
+        document.getElementById("agenciaEstado").value = botao.dataset.estado;
+        document.getElementById("agenciaCep").value = botao.dataset.cep;
+        document.getElementById("agenciaTelefone").value = botao.dataset.telefone;
+        document.getElementById("agenciaEmail").value = botao.dataset.email;
+        document.getElementById("agenciaBancoId").value = botao.dataset.bancoId;
+        document.getElementById("modalOverlay").style.display = "flex";
+    }
+
+    function fecharModal() {
+        document.getElementById("modalOverlay").style.display = "none";
+    }
+
+    document.getElementById("formEdit").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const id = document.getElementById("agenciaId").value;
+        const data = {
+            nome: document.getElementById("agenciaNome").value,
+            codigo: document.getElementById("agenciaCodigo").value,
+            dataFundacao: document.getElementById("agenciaDataFundacao").value,
+            situacao: document.getElementById("agenciaSituacao").value,
+            gerente: document.getElementById("agenciaGerente").value,
+            endereco: document.getElementById("agenciaEndereco").value,
+            bairro: document.getElementById("agenciaBairro").value,
+            cidade: document.getElementById("agenciaCidade").value,
+            estado: document.getElementById("agenciaEstado").value,
+            cep: document.getElementById("agenciaCep").value,
+            telefone: document.getElementById("agenciaTelefone").value,
+            email: document.getElementById("agenciaEmail").value,
+            banco: { id: document.getElementById("agenciaBancoId").value }
+        };
+
+        const response = await fetch(`/agencias/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+        if (response.ok) {
+            window.location.reload();
+        }
+    });
+</script>
+</body>
+</html>

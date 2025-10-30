@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/agencia/styles.css}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário de Agência</title>
+</head>
+<body>
+<section class="formAgency">
+    <div class="formContent">
+        <form th:action="@{/agencias/insert}" th:object="${agencia}" method="post">
+            <h3>Cadastre uma agência</h3>
+
+            <div class="formGrid">
+                <input type="text" th:field="*{nome}" class="formInput" placeholder="Nome" required/>
+                <input type="text" th:field="*{codigo}" class="formInput" placeholder="Código" required/>
+                <input type="date" th:field="*{dataFundacao}" class="formInput" placeholder="Data de Fundação" required/>
+                <select th:field="*{situacao}" class="formInput" required>
+                    <option value="">Situação</option>
+                    <option value="ATIVA">Ativa</option>
+                    <option value="ENCERRADA">Encerrada</option>
+                    <option value="EM_REFORMA">Em Reforma</option>
+                    <option value="DESATIVADA">Desativada</option>
+                </select>
+                <input type="text" th:field="*{gerente}" class="formInput" placeholder="Gerente" required/>
+                <input type="text" th:field="*{endereco}" class="formInput" placeholder="Endereço" required/>
+                <input type="text" th:field="*{bairro}" class="formInput" placeholder="Bairro" required/>
+                <input type="text" th:field="*{cidade}" class="formInput" placeholder="Cidade" required/>
+                <input type="text" th:field="*{estado}" class="formInput" placeholder="Estado" required/>
+                <input type="text" th:field="*{cep}" class="formInput" placeholder="CEP" required/>
+                <input type="text" th:field="*{telefone}" class="formInput" placeholder="Telefone" required/>
+                <input type="email" th:field="*{email}" class="formInput" placeholder="Email" required/>
+                <select th:field="*{banco}" class="formInput" required>
+                    <option value="">Selecione o Banco</option>
+                    <option th:each="banco : ${bancos}"
+                            th:value="${banco.id}"
+                            th:text="${banco.nome}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="formBtns">
+                <button type="reset" class="cleanBtn">Limpar</button>
+                <button type="submit" class="submitBtn">Cadastrar</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<div class="returnBtnDiv">
+    <a th:href="@{/agencia/listaAgencias}" class="returnBtn"><i class="fa-regular fa-circle-left"></i></a>
+</div>
+</body>
+</html>
